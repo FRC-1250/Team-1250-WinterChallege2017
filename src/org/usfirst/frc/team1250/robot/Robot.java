@@ -38,15 +38,17 @@ public class Robot extends SampleRobot {
 		MBackLeft = new CANTalon(6);
 		SBackLeft = new CANTalon(7);
 	// Setting the Slaves
+		
 		SFrontRight.changeControlMode(CANTalon.TalonControlMode.Follower);
 		SFrontLeft.changeControlMode(CANTalon.TalonControlMode.Follower);
 		SBackRight.changeControlMode(CANTalon.TalonControlMode.Follower);
 		SBackLeft.changeControlMode(CANTalon.TalonControlMode.Follower);
 	// Setting The Masters
-		SFrontRight.set(MFrontRight.getDeviceID());
-		SFrontLeft.set(MFrontLeft.getDeviceID());
-		SBackRight.set(MBackRight.getDeviceID()); 
-		SBackLeft.set(MBackLeft.getDeviceID());
+		
+		MFrontRight.set(MFrontRight.getDeviceID());
+		MFrontLeft.set(MFrontLeft.getDeviceID());
+		MBackRight.set(MBackRight.getDeviceID()); 
+		MBackLeft.set(MBackLeft.getDeviceID());
 		
 		robotDrive = new RobotDrive(MFrontRight, MFrontLeft, MBackRight, MBackLeft);
 		robotDrive.setInvertedMotor(MotorType.kFrontLeft, true); // invert the
