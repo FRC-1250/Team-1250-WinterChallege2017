@@ -1,5 +1,6 @@
 package org.usfirst.frc.team1250.robot;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.RobotDrive.MotorType;
@@ -27,16 +28,32 @@ public class Robot extends SampleRobot {
 	final int kJoystickChannel = 0;
 
 	Joystick stick = new Joystick(kJoystickChannel);
-
+	
+	CANTalon ShootTalon;
+	
+	DigitalInput Sensor;
+	
+	Timer time;
+	
+	double ButtonPressTime = 0;	
+	
 	public Robot() {
-		MFrontRight = new CANTalon(0);
-		SFrontRight = new CANTalon(1);
-		MFrontLeft = new CANTalon(2);
-		SFrontLeft = new CANTalon(3);
-		MBackRight = new CANTalon(4);
-		SBackRight = new CANTalon(5);
-		MBackLeft = new CANTalon(6);
-		SBackLeft = new CANTalon(7);
+		
+		// test not the real sensor!!!! talk to George about it //
+
+		ShootTalon = new CANTalon(10);
+		Sensor = new DigitalInput(9); 
+		time = new Timer();
+		time.start();
+		
+		MFrontRight = new CANTalon(18); //18
+		SFrontRight = new CANTalon(17);
+		MFrontLeft = new CANTalon(11);
+		SFrontLeft = new CANTalon(12);
+		MBackRight = new CANTalon(16);
+		SBackRight = new CANTalon(15);
+		MBackLeft = new CANTalon(13);
+		SBackLeft = new CANTalon(14);
 	// Setting the Slaves
 		
 		SFrontRight.changeControlMode(CANTalon.TalonControlMode.Follower);
@@ -45,12 +62,12 @@ public class Robot extends SampleRobot {
 		SBackLeft.changeControlMode(CANTalon.TalonControlMode.Follower);
 	// Setting The Masters
 		
-		MFrontRight.set(MFrontRight.getDeviceID());
-		MFrontLeft.set(MFrontLeft.getDeviceID());
-		MBackRight.set(MBackRight.getDeviceID()); 
-		MBackLeft.set(MBackLeft.getDeviceID());
+		SFrontRight.set(MFrontRight.getDeviceID());
+		SFrontLeft.set(MFrontLeft.getDeviceID());
+		SBackRight.set(MBackRight.getDeviceID()); 
+		SBackLeft.set(MBackLeft.getDeviceID());
 		
-		robotDrive = new RobotDrive(MFrontRight, MFrontLeft, MBackRight, MBackLeft);
+		robotDrive = new RobotDrive(MFrontLeft, MBackLeft , MFrontRight, MBackRight);
 		robotDrive.setInvertedMotor(MotorType.kFrontLeft, true); // invert the
 																	// left side
 																	// motors
@@ -75,8 +92,31 @@ public class Robot extends SampleRobot {
 			// This sample does not use field-oriented drive, so the gyro input
 			// is set to zero.
 			robotDrive.mecanumDrive_Cartesian(stick.getX(), stick.getY(), stick.getZ(), 0);
-
+//			System.out.println(time.get());
+			if(time.get() - ButtonPressTime > 1)	
+		{
+			if(Sensor.get() == false)	
+				{
+					
+					if(stick.getRawButton(8))
+					{
+						System.out.println("SHOOTING");
+						ButtonPressTime = time.get();
+						ShootTalon.set(0.2);
+					}
+					else 
+					{
+						System.out.println("READY TO FIRE");
+						ShootTalon.set(0);
+					}
+				}
+				else
+				{
+					ShootTalon.set(0.2);
+				}		
 			Timer.delay(0.005); // wait 5ms to avoid hogging CPU cycles
 		}
+		}
+		
 	}
 }
