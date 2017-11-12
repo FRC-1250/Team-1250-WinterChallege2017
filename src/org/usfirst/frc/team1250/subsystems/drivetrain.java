@@ -13,6 +13,19 @@ import com.ctre.CANTalon;
 
 public class drivetrain extends Subsystem {
 	
+	RobotDrive robotDrive;
+	
+	CANTalon MFrontRight;
+	CANTalon SFrontRight;
+	CANTalon MFrontLeft; 
+	CANTalon SFrontLeft;
+	CANTalon MBackRight;
+	CANTalon SBackRight;
+	CANTalon MBackLeft;
+	CANTalon SBackLeft;
+	
+	public drivetrain() {
+	
 	MFrontRight = new CANTalon(18);
 	SFrontRight = new CANTalon(17);
 	MFrontLeft = new CANTalon(11);
@@ -44,5 +57,11 @@ public class drivetrain extends Subsystem {
 																
 															
 	robotDrive.setInvertedMotor(MotorType.kRearLeft, true);
-															
+	}
+
+	@Override
+	protected void initDefaultCommand() {
+		// TODO Auto-generated method stub
+		
+	}														
 }
