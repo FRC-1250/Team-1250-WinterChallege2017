@@ -48,13 +48,13 @@ public class Robot extends SampleRobot {
 					
 					if(stick.getRawButton(8))
 					{
-						System.out.println("SHOOTING");
+						System.out.println("SHOOTING...WINDING");
 						ButtonPressTime = time.get();
 						ShootTalon.set(0.2);
 					}
 					else 
 					{
-						System.out.println("READY TO FIRE");
+						System.out.println("READY TO FIRE...");
 						ShootTalon.set(0);
 					}
 				}

@@ -3,7 +3,7 @@ package org.usfirst.frc.team1250.robot;
 public class RobotMap {
 	
 	// These are the Talon IDs for the drivetrain (All IDs are minus 10 on the actual bot)
-	
+	// Add all new motors/ENCs on this list for ease of finding
 	public static final int MFrontRight = 18;
 	public static final int SFrontRight = 17;
 	public static final int MFrontLeft = 11;
