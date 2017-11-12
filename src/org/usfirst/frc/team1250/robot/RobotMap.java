@@ -13,7 +13,7 @@ public class RobotMap {
 	public static final int MBackLeft = 13;
 	public static final int sBackLeft = 14;
 	
-	//This is the talon for the shooter
+	//This is the talon for the shooter (Still minus 10)
 	
 	public static final int ShootTalon = 10;
 	

@@ -3,45 +3,32 @@ package org.usfirst.frc.team1250.robot;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.RobotDrive;
-import edu.wpi.first.wpilibj.RobotDrive.MotorType;
 import edu.wpi.first.wpilibj.SampleRobot;
 import edu.wpi.first.wpilibj.Timer;
-
 import org.usfirst.frc.team1250.subsystems.drivetrain;
-
 import com.ctre.CANTalon;
 
-
 public class Robot extends SampleRobot {
-
 	public drivetrain Drivetrain;
-
 	public void robotInit() {
 	
 	Drivetrain = new drivetrain();
 }
-		RobotDrive robotDrive;
+		RobotDrive robotDrive;	
 	
-	// The channel on the driver station that the joystick is connected to
+		// The channel on the driver station that the joystick is connected to
+	
 	final int kJoystickChannel = 0;
-
 	Joystick stick = new Joystick(kJoystickChannel);
-	
 	CANTalon ShootTalon;
-	
 	DigitalInput Sensor;
-	
 	Timer time;
-	
 	double ButtonPressTime = 0;	
-	
-	public Robot() {
-		
+	public Robot() {	
 		ShootTalon = new CANTalon(10);
 		Sensor = new DigitalInput(9); 
 		time = new Timer();
 		time.start();
-		
 		robotDrive.setExpiration(0.1);
 	}
 
