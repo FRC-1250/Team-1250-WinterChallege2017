@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.RobotDrive.MotorType;
 import edu.wpi.first.wpilibj.SampleRobot;
 import edu.wpi.first.wpilibj.Timer;
 import com.ctre.CANTalon;
+
 public class Robot extends SampleRobot {
 	RobotDrive robotDrive;
 
@@ -35,7 +36,6 @@ public class Robot extends SampleRobot {
 	
 	public Robot() {
 		
-
 		ShootTalon = new CANTalon(10);
 		Sensor = new DigitalInput(9); 
 		time = new Timer();
