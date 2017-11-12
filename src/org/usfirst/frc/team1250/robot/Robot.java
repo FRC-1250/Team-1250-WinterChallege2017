@@ -6,20 +6,21 @@ import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.RobotDrive.MotorType;
 import edu.wpi.first.wpilibj.SampleRobot;
 import edu.wpi.first.wpilibj.Timer;
+
+import org.usfirst.frc.team1250.subsystems.drivetrain;
+
 import com.ctre.CANTalon;
-
+import edu.wpi.first.wpilibj.command.Subsystem;
+// -----------------------------------------------------------------------------------------------
 public class Robot extends SampleRobot {
-	RobotDrive robotDrive;
 
-	// Channels for the wheels
-	CANTalon MFrontRight;
-	CANTalon SFrontRight;
-	CANTalon MFrontLeft; 
-	CANTalon SFrontLeft;
-	CANTalon MBackRight;
-	CANTalon SBackRight;
-	CANTalon MBackLeft;
-	CANTalon SBackLeft;
+	public drivetrain Drivetrain;
+
+	public void robotInit() {
+	
+	Drivetrain = new drivetrain();
+}
+		RobotDrive robotDrive;
 	
 	// The channel on the driver station that the joystick is connected to
 	final int kJoystickChannel = 0;
@@ -41,36 +42,6 @@ public class Robot extends SampleRobot {
 		time = new Timer();
 		time.start();
 		
-		MFrontRight = new CANTalon(18); //18
-		SFrontRight = new CANTalon(17);
-		MFrontLeft = new CANTalon(11);
-		SFrontLeft = new CANTalon(12);
-		MBackRight = new CANTalon(16);
-		SBackRight = new CANTalon(15);
-		MBackLeft = new CANTalon(13);
-		SBackLeft = new CANTalon(14);
-	// Setting the Slaves
-		
-		SFrontRight.changeControlMode(CANTalon.TalonControlMode.Follower);
-		SFrontLeft.changeControlMode(CANTalon.TalonControlMode.Follower);
-		SBackRight.changeControlMode(CANTalon.TalonControlMode.Follower);
-		SBackLeft.changeControlMode(CANTalon.TalonControlMode.Follower);
-	// Setting The Masters
-		
-		SFrontRight.set(MFrontRight.getDeviceID());
-		SFrontLeft.set(MFrontLeft.getDeviceID());
-		SBackRight.set(MBackRight.getDeviceID()); 
-		SBackLeft.set(MBackLeft.getDeviceID());
-		
-		robotDrive = new RobotDrive(MFrontLeft, MBackLeft , MFrontRight, MBackRight);
-		robotDrive.setInvertedMotor(MotorType.kFrontLeft, true); // invert the
-																	// left side
-																	// motors
-		robotDrive.setInvertedMotor(MotorType.kRearLeft, true); // you may need
-																// to change or
-																// remove this
-																// to match your
-																// robot
 		robotDrive.setExpiration(0.1);
 	}
 
