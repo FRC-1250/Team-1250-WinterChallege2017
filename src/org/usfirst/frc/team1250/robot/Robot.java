@@ -7,10 +7,6 @@ import edu.wpi.first.wpilibj.RobotDrive.MotorType;
 import edu.wpi.first.wpilibj.SampleRobot;
 import edu.wpi.first.wpilibj.Timer;
 import com.ctre.CANTalon;
-/**
- * This is a demo program showing how to use Mecanum control with the RobotDrive
- * class.
- */
 public class Robot extends SampleRobot {
 	RobotDrive robotDrive;
 
@@ -39,7 +35,6 @@ public class Robot extends SampleRobot {
 	
 	public Robot() {
 		
-		// test not the real sensor!!!! talk to George about it //
 
 		ShootTalon = new CANTalon(10);
 		Sensor = new DigitalInput(9); 
@@ -87,12 +82,9 @@ public class Robot extends SampleRobot {
 		robotDrive.setSafetyEnabled(true);
 		while (isOperatorControl() && isEnabled()) {
 
-			// Use the joystick X axis for lateral movement, Y axis for forward
-			// movement, and Z axis for rotation.
-			// This sample does not use field-oriented drive, so the gyro input
-			// is set to zero.
 			robotDrive.mecanumDrive_Cartesian(stick.getX(), stick.getY(), stick.getZ(), 0);
-//			System.out.println(time.get());
+//			System.out.println(time.get()); Noted Out For Testing
+//			All below is logic for shooter. I will be making a sub system for this.
 			if(time.get() - ButtonPressTime > 1)	
 		{
 			if(Sensor.get() == false)	
