@@ -2,34 +2,28 @@ package org.usfirst.frc.team1250.robot;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.SampleRobot;
 import edu.wpi.first.wpilibj.Timer;
 import org.usfirst.frc.team1250.subsystems.drivetrain;
 import com.ctre.CANTalon;
 
 public class Robot extends SampleRobot {
+	
+	final int kJoystickChannel = 0; // The channel on the driver station that the joystick is connected to
+	double ButtonPressTime = 0;	
 	public drivetrain Drivetrain;
-	public void robotInit() {
-	
-	Drivetrain = new drivetrain();
-}
-		RobotDrive robotDrive;	
-	
-		// The channel on the driver station that the joystick is connected to
-	
-	final int kJoystickChannel = 0;
-	Joystick stick = new Joystick(kJoystickChannel);
+	Joystick stick;
 	CANTalon ShootTalon;
 	DigitalInput Sensor;
 	Timer time;
-	double ButtonPressTime = 0;	
+	
 	public Robot() {	
+		stick = new Joystick(kJoystickChannel);
+		Drivetrain = new drivetrain();
 		ShootTalon = new CANTalon(10);
 		Sensor = new DigitalInput(9); 
 		time = new Timer();
 		time.start();
-		robotDrive.setExpiration(0.1);
 	}
 
 	/**
@@ -37,34 +31,33 @@ public class Robot extends SampleRobot {
 	 */
 	@Override
 	public void operatorControl() {
-		robotDrive.setSafetyEnabled(true);
 		while (isOperatorControl() && isEnabled()) {
 
-			robotDrive.mecanumDrive_Cartesian(stick.getX(), stick.getY(), stick.getZ(), 0);
+			Drivetrain.drive(stick);
+			
 			if(time.get() - ButtonPressTime > 1)	
-		{
-			if(Sensor.get() == false)	
-				{
-					
-					if(stick.getRawButton(8))
+			{
+				if(Sensor.get() == false)	
 					{
-						System.out.println("SHOOTING...WINDING");
-						ButtonPressTime = time.get();
+						
+						if(stick.getRawButton(8))
+						{
+							System.out.println("SHOOTING...WINDING");
+							ButtonPressTime = time.get();
+							ShootTalon.set(0.2);
+						}
+						else 
+						{
+							System.out.println("READY TO FIRE...");
+							ShootTalon.set(0);
+						}
+					}
+					else
+					{
 						ShootTalon.set(0.2);
-					}
-					else 
-					{
-						System.out.println("READY TO FIRE...");
-						ShootTalon.set(0);
-					}
-				}
-				else
-				{
-					ShootTalon.set(0.2);
-				}		
-			Timer.delay(0.005); // wait 5ms to avoid hogging CPU cycles
+					}		
+				Timer.delay(0.005); // wait 5ms to avoid hogging CPU cycles
+			}
 		}
-		}
-		
 	}
 }
