@@ -1,27 +1,27 @@
-package src.org.usfirst.frc.team1250.robot;
+package org.usfirst.frc.team1250.robot;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.SampleRobot;
 import edu.wpi.first.wpilibj.Timer;
-import org.usfirst.frc.team1250.subsystems.drivetrain;
+import org.usfirst.frc.team1250.subsystems.*;
 import com.ctre.CANTalon;
 
 public class Robot extends SampleRobot {
 	
 	final int kJoystickChannel = 0; // The channel on the driver station that the joystick is connected to
-	double ButtonPressTime = 0;	
-	public drivetrain Drivetrain;
+	double buttonPressTime = 0;	
+	public DriveTrain driveTrain;
 	Joystick stick;
-	CANTalon ShootTalon;
-	DigitalInput Sensor;
+	CANTalon shootTalon;
+	DigitalInput sensor;
 	Timer time;
 	
 	public Robot() {	
 		stick = new Joystick(kJoystickChannel);
-		Drivetrain = new drivetrain();
-		ShootTalon = new CANTalon(10);
-		Sensor = new DigitalInput(9); 
+		driveTrain = new DriveTrain();
+		shootTalon = new CANTalon(RobotMap.ShootTalon);
+		sensor = new DigitalInput(RobotMap.SensorIO); 
 		time = new Timer();
 		time.start();
 	}
@@ -33,28 +33,29 @@ public class Robot extends SampleRobot {
 	public void operatorControl() {
 		while (isOperatorControl() && isEnabled()) {
 
-			Drivetrain.drive(stick);
+			driveTrain.Drive(stick);
 			
-			if(time.get() - ButtonPressTime > 1)	
+			if(time.get() - buttonPressTime > 1)	
 			{
-				if(Sensor.get() == false)	
+				if(sensor.get() == false)	
 					{
 						
 						if(stick.getRawButton(8))
 						{
 							System.out.println("SHOOTING...WINDING");
-							ButtonPressTime = time.get();
-							ShootTalon.set(0.2);
+							buttonPressTime = time.get();
+							shootTalon.set(0.2);
 						}
 						else 
 						{
 							System.out.println("READY TO FIRE...");
-							ShootTalon.set(0);
+							shootTalon.set(0);
 						}
 					}
 					else
 					{
-						ShootTalon.set(0.2);
+						System.out.println("Arming...");
+						shootTalon.set(0.2);
 					}		
 				Timer.delay(0.005); // wait 5ms to avoid hogging CPU cycles
 			}

@@ -1,16 +1,12 @@
 package org.usfirst.frc.team1250.subsystems;
-
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.RobotDrive.MotorType;
-import edu.wpi.first.wpilibj.command.Subsystem;
-
+import org.usfirst.frc.team1250.robot.RobotMap;
 import com.ctre.CANTalon;
 
-//This is a subsystem containing all the talon ids and driving logic
 
-public class drivetrain extends Subsystem {
-	
+public class DriveTrain {
 	RobotDrive robotDrive;
 	CANTalon MFrontRight;
 	CANTalon SFrontRight;
@@ -21,25 +17,25 @@ public class drivetrain extends Subsystem {
 	CANTalon MBackLeft;
 	CANTalon SBackLeft;
 	
-	public drivetrain() {
+	public DriveTrain() {
 	
-		MFrontRight = new CANTalon(18);
-		SFrontRight = new CANTalon(17);
-		MFrontLeft = new CANTalon(11);
-		SFrontLeft = new CANTalon(12);
-		MBackRight = new CANTalon(16);
-		SBackRight = new CANTalon(15);
-		MBackLeft = new CANTalon(13);
-		SBackLeft = new CANTalon(14);
+		MFrontRight = new CANTalon(RobotMap.MFrontRight);
+		SFrontRight = new CANTalon(RobotMap.SFrontRight);
+		MFrontLeft = new CANTalon(RobotMap.MFrontLeft);
+		SFrontLeft = new CANTalon(RobotMap.SFrontLeft);
+		MBackRight = new CANTalon(RobotMap.MBackRight);
+		SBackRight = new CANTalon(RobotMap.SBackLeft);
+		MBackLeft = new CANTalon(RobotMap.MBackLeft);
+		SBackLeft = new CANTalon(RobotMap.SBackRight);
 	
-	// Setting the Slaves
+	// Setting the Slaves control mode
 		
 		SFrontRight.changeControlMode(CANTalon.TalonControlMode.Follower);
 		SFrontLeft.changeControlMode(CANTalon.TalonControlMode.Follower);
 		SBackRight.changeControlMode(CANTalon.TalonControlMode.Follower);
 		SBackLeft.changeControlMode(CANTalon.TalonControlMode.Follower);
 	
-	// Setting The Masters
+	// Setting slaves to their masters
 		
 		SFrontRight.set(MFrontRight.getDeviceID());
 		SFrontLeft.set(MFrontLeft.getDeviceID());
@@ -49,18 +45,13 @@ public class drivetrain extends Subsystem {
 		robotDrive = new RobotDrive(MFrontLeft, MBackLeft , MFrontRight, MBackRight);
 	
 	// Inverting Left side
-		
 		robotDrive.setInvertedMotor(MotorType.kFrontLeft, true);														
 		robotDrive.setInvertedMotor(MotorType.kRearLeft, true);
 		robotDrive.setSafetyEnabled(true);
 	}
 	
-	public void drive(Joystick stick) 
+	public void Drive(Joystick stick) 
 	{
 		robotDrive.mecanumDrive_Cartesian(stick.getX(), stick.getY(), stick.getZ(), 0);
-	}
-
-	@Override
-	protected void initDefaultCommand() {
-	}														
+	}						
 }
