@@ -1,2 +1,4 @@
-/org/
-/talons/
+*.project
+build.properties
+build.xml
+.classpath
