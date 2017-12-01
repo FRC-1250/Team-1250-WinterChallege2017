@@ -46,8 +46,8 @@ public class DriveTrain {
 	
 	// Inverting Left side
 		robotDrive.setInvertedMotor(MotorType.kFrontLeft, true);														
-		robotDrive.setInvertedMotor(MotorType.kRearLeft, true);
-		robotDrive.setSafetyEnabled(true);
+//		robotDrive.setInvertedMotor(MotorType.kRearLeft, true);
+//		robotDrive.setSafetyEnabled(true);
 	}
 	
 	public void Drive(Joystick stick) 

@@ -6,6 +6,8 @@ import edu.wpi.first.wpilibj.SampleRobot;
 import edu.wpi.first.wpilibj.Timer;
 import org.usfirst.frc.team1250.subsystems.*;
 import com.ctre.CANTalon;
+import edu.wpi.first.wpilibj.I2C;
+import edu.wpi.first.wpilibj.I2C.Port;
 
 public class Robot extends SampleRobot {
 	
@@ -16,6 +18,8 @@ public class Robot extends SampleRobot {
 	CANTalon shootTalon;
 	DigitalInput sensor;
 	Timer time;
+	I2C i2c;
+	byte[] toSend = new byte[1];
 	
 	public Robot() {	
 		stick = new Joystick(kJoystickChannel);
@@ -24,22 +28,39 @@ public class Robot extends SampleRobot {
 		sensor = new DigitalInput(RobotMap.SensorIO); 
 		time = new Timer();
 		time.start();
+		i2c = new I2C(I2C.Port.kOnboard,84);
 	}
+	
+    @Override
+    public void disabled() {
+    	toSend[0] = 0;
+    	i2c.transaction(toSend,  1, null, 0);
+    }
+	
 
 	/**
 	 * Runs the motors with Mecanum drive.
 	 */
 	@Override
 	public void operatorControl() {
+		String sentByte;
+		
 		while (isOperatorControl() && isEnabled()) {
-
+//		boolean on = false;
+//			if (on)
+//				toSend[0] = 76;
+//			else
+//				toSend[0] = 72;
+//			on = ! on;
+			
+			
 			driveTrain.Drive(stick);
 			
 			if(time.get() - buttonPressTime > 1)	
 			{
 				if(sensor.get() == false)	
 					{
-						
+						//toSend[0] = 76;
 						if(stick.getRawButton(8))
 						{
 							System.out.println("SHOOTING...WINDING");
@@ -50,13 +71,18 @@ public class Robot extends SampleRobot {
 						{
 							System.out.println("READY TO FIRE...");
 							shootTalon.set(0);
+							toSend[0] = 72;
 						}
 					}
 					else
 					{
 						System.out.println("Arming...");
 						shootTalon.set(0.2);
-					}		
+						toSend[0] = 76;
+					}	
+				System.out.printf("Value Sent = %d ", toSend[0]);
+				//sentByte = String.format("Sent Byte: %d", toSend[0])
+				i2c.transaction(toSend,  1, null, 0);
 				Timer.delay(0.005); // wait 5ms to avoid hogging CPU cycles
 			}
 		}
