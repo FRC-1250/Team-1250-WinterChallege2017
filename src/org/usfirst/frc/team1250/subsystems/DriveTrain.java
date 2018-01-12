@@ -18,7 +18,8 @@ public class DriveTrain {
 	CANTalon SBackLeft;
 	
 	public DriveTrain() {
-	
+		
+		
 		MFrontRight = new CANTalon(RobotMap.MFrontRight);
 		SFrontRight = new CANTalon(RobotMap.SFrontRight);
 		MFrontLeft = new CANTalon(RobotMap.MFrontLeft);
@@ -42,12 +43,15 @@ public class DriveTrain {
 		SBackRight.set(MBackRight.getDeviceID()); 
 		SBackLeft.set(MBackLeft.getDeviceID());
 		
-		robotDrive = new RobotDrive(MFrontLeft, MBackLeft , MFrontRight, MBackRight);
+		//robotDrive = new RobotDrive(MFrontLeft, MBackLeft , MFrontRight, MBackRight);
 	
 	// Inverting Left side
+		robotDrive = new RobotDrive(MFrontLeft, MBackLeft , MFrontRight, MBackRight);
 		robotDrive.setInvertedMotor(MotorType.kFrontLeft, true);														
-//		robotDrive.setInvertedMotor(MotorType.kRearLeft, true);
+		robotDrive.setInvertedMotor(MotorType.kRearLeft, true);
 //		robotDrive.setSafetyEnabled(true);
+		
+		
 	}
 	
 	public void Drive(Joystick stick) 
